@@ -1,0 +1,34 @@
+# build
+build/
+Debug/
+Release/
+
+# editor
+.vscode/
+.idea/
+
+# generated
+tags
+*.log
+*.tmp
+
+# binary / archive
+*.o
+*.obj
+*.exe
+*.dll
+*.a
+*.so
+*.so.*
+*.zip
+*.tar
+*.tar.gz
+
+# model / runtime data
+*.data
+
+# third-party runtime/sdk dirs
+rv1126_lib/
+opt/
+arm32_ffmpeg_srt/lib/
+arm_freetype/lib/
