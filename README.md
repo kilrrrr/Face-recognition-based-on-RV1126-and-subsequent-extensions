@@ -65,25 +65,6 @@
                            ./rockx_face_detect_venc.h264
 ```
 
-## 核心设计思路
-
-### 1. 双码流不是重复功能，而是前端能力分层
-
-- 主码流保留更高质量的视频，用于正式推流、录像、回放或后续复核
-- 子码流承担弱网预览、调试和轻量分发任务
-- 不同业务不强压在同一路编码链路上，便于在资源受限的板端做取舍
-
-### 2. 编码和推流解耦，优先保证实时采集链路稳定
-
-- 编码线程持续从 `VENC` 拉取码流
-- 推流线程从线程安全队列中取数据并交给 FFmpeg
-- 这样可以避免网络抖动直接反压到硬件编码侧
-
-### 3. 智能分析用旁路扩展，而不是直接改坏主链路
-
-- 人脸检测支路独立编码输出，默认保存为 `./rockx_face_detect_venc.h264`
-- 原始主码流保持纯净，便于调试、回放和问题定位
-- 算法耗时波动不会直接污染主业务输出
 
 ## 代码入口
 
@@ -114,14 +95,6 @@
 - `opt/arm32_ffmpeg_srt/`：交叉编译后的 FFmpeg/SRT 资源
 - `opt/arm_opencv/`：OpenCV 交叉编译资源
 - `arm_sdl/`、`arm_sdl_ttf_install/`、`arm_freetype/`：OSD/字体实验依赖
-
-### 文档
-
-- `project_code_summary.md`：项目代码总览
-- `rkmedia_module_function_summary.md`：RKMedia 初始化链路总结
-- `rockx_opencv_face_detect_summary.md`：人脸检测支路说明
-- `camera_expansion_roadmap.md`：camera/ISP 后续拓展路线
-- `project_resume.md`：面向简历表达的项目整理
 
 ## 依赖环境
 
@@ -262,14 +235,6 @@ make
 - 补齐 `AI -> AENC -> FFmpeg`，形成完整音视频闭环
 - 为视频帧补充时间戳、曝光值、算法结果等元数据
 - 在 Linux 路线下先完成 camera 前端能力；只有在 Android 化时再考虑 `Camera HAL`
-
-## 相关文档
-
-- [项目代码总览](./project_code_summary.md)
-- [RKMedia 初始化总结](./rkmedia_module_function_summary.md)
-- [RockX + OpenCV 人脸检测说明](./rockx_opencv_face_detect_summary.md)
-- [Camera 拓展路线](./camera_expansion_roadmap.md)
-- [项目简历整理](./project_resume.md)
 
 ## 注意事项
 
