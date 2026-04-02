@@ -66,16 +66,6 @@
 ```
 
 
-## 代码入口
-
-- 主入口：`rv1126_ffmpeg_main.cpp`
-- RKMedia 模块初始化：`rkmedia_module_function.cpp`
-- 模块绑定与线程启动：`rkmedia_assignment_manage.cpp`
-- 码流读取、RGA 转发、FFmpeg 推流：`rkmedia_data_process.cpp`
-- FFmpeg 输出上下文：`rkmedia_ffmpeg_config.cpp`
-- RockX + OpenCV 人脸检测支路：`rockx_face_detect_module.cpp`
-- ISP 初始化封装：`rv1126_isp_function.cpp`、`sample_common_isp.c`
-
 ## 目录说明
 
 ### 工程源码
