@@ -1,4 +1,4 @@
-# douyin_rv1126_ffmpeg_network_project
+# rv1126_ffmpeg_network_project
 
 基于 Rockchip RV1126 的嵌入式音视频前端工程，核心目标是在板端完成 `视频采集 -> 硬件编码 -> FFmpeg 封装 -> 网络推流`，并在稳定主链路上扩展 `RockX + OpenCV` 人脸检测旁路。
 
