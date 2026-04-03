@@ -5,7 +5,7 @@
 
 #include "rkmedia_ffmpeg_config.h"
 #include "rkmedia_container.h"
-#include "rockx_face_detect_module.h"
+#include "rockx_video_conference_module.h"
 
 int init_rv1126_first_assignment(int protocol_type, char * network_address, int low_url_type, char *low_url_address)
 {
@@ -145,47 +145,55 @@ int init_rv1126_first_assignment(int protocol_type, char * network_address, int 
         printf("push_server_thread error\n");
     }
 
-    RV1126_VENC_CONTAINER face_detect_venc_container;
-    get_venc_container(ROCKX_FACE_DETECT_VENC_ID, &face_detect_venc_container);
+    RV1126_VENC_CONTAINER conference_venc_container;
+    get_venc_container(ROCKX_VIDEO_CONFERENCE_VENC_ID, &conference_venc_container);
 
-    ROCKX_FACE_DETECT_PARAM *face_detect_param = (ROCKX_FACE_DETECT_PARAM *)malloc(sizeof(ROCKX_FACE_DETECT_PARAM));
-    if (face_detect_param == NULL)
+    ROCKX_VIDEO_CONFERENCE_PARAM *conference_param = (ROCKX_VIDEO_CONFERENCE_PARAM *)malloc(sizeof(ROCKX_VIDEO_CONFERENCE_PARAM));
+    if (conference_param == NULL)
     {
-        printf("malloc face detect param error\n");
+        printf("malloc conference param error\n");
         return -1;
     }
 
-    memset(face_detect_param, 0, sizeof(ROCKX_FACE_DETECT_PARAM));
-    face_detect_param->vi_id = vi_container.vi_id;
-    face_detect_param->venc_id = face_detect_venc_container.venc_id;
-    face_detect_param->width = 1920;
-    face_detect_param->height = 1080;
-    snprintf(face_detect_param->output_path, sizeof(face_detect_param->output_path), "%s", ROCKX_FACE_DETECT_OUTPUT_PATH);
+    memset(conference_param, 0, sizeof(ROCKX_VIDEO_CONFERENCE_PARAM));
+    conference_param->vi_id = vi_container.vi_id;
+    conference_param->venc_id = conference_venc_container.venc_id;
+    conference_param->width = 1920;
+    conference_param->height = 1080;
+    conference_param->analysis_width = ROCKX_VIDEO_CONFERENCE_ANALYSIS_WIDTH;
+    conference_param->analysis_height = ROCKX_VIDEO_CONFERENCE_ANALYSIS_HEIGHT;
+    conference_param->track_smooth_alpha = 0.35f;
+    conference_param->max_track_lost_frames = 8;
+    snprintf(conference_param->output_path, sizeof(conference_param->output_path), "%s", ROCKX_VIDEO_CONFERENCE_OUTPUT_PATH);
 
-    ret = pthread_create(&pid, NULL, rockx_face_detect_thread, (void *)face_detect_param);
+    ret = pthread_create(&pid, NULL, rockx_video_conference_thread, (void *)conference_param);
     if (ret != 0)
     {
-        printf("create rockx_face_detect_thread failed\n");
+        printf("create rockx_video_conference_thread failed\n");
     }
 
-    ROCKX_FACE_DETECT_PARAM *face_detect_venc_param = (ROCKX_FACE_DETECT_PARAM *)malloc(sizeof(ROCKX_FACE_DETECT_PARAM));
-    if (face_detect_venc_param == NULL)
+    ROCKX_VIDEO_CONFERENCE_PARAM *conference_venc_param = (ROCKX_VIDEO_CONFERENCE_PARAM *)malloc(sizeof(ROCKX_VIDEO_CONFERENCE_PARAM));
+    if (conference_venc_param == NULL)
     {
-        printf("malloc face detect venc param error\n");
+        printf("malloc conference venc param error\n");
         return -1;
     }
 
-    memset(face_detect_venc_param, 0, sizeof(ROCKX_FACE_DETECT_PARAM));
-    face_detect_venc_param->vi_id = vi_container.vi_id;
-    face_detect_venc_param->venc_id = face_detect_venc_container.venc_id;
-    face_detect_venc_param->width = 1920;
-    face_detect_venc_param->height = 1080;
-    snprintf(face_detect_venc_param->output_path, sizeof(face_detect_venc_param->output_path), "%s", ROCKX_FACE_DETECT_OUTPUT_PATH);
+    memset(conference_venc_param, 0, sizeof(ROCKX_VIDEO_CONFERENCE_PARAM));
+    conference_venc_param->vi_id = vi_container.vi_id;
+    conference_venc_param->venc_id = conference_venc_container.venc_id;
+    conference_venc_param->width = 1920;
+    conference_venc_param->height = 1080;
+    conference_venc_param->analysis_width = ROCKX_VIDEO_CONFERENCE_ANALYSIS_WIDTH;
+    conference_venc_param->analysis_height = ROCKX_VIDEO_CONFERENCE_ANALYSIS_HEIGHT;
+    conference_venc_param->track_smooth_alpha = 0.35f;
+    conference_venc_param->max_track_lost_frames = 8;
+    snprintf(conference_venc_param->output_path, sizeof(conference_venc_param->output_path), "%s", ROCKX_VIDEO_CONFERENCE_OUTPUT_PATH);
 
-    ret = pthread_create(&pid, NULL, rockx_face_detect_venc_thread, (void *)face_detect_venc_param);
+    ret = pthread_create(&pid, NULL, rockx_video_conference_venc_thread, (void *)conference_venc_param);
     if (ret != 0)
     {
-        printf("create rockx_face_detect_venc_thread failed\n");
+        printf("create rockx_video_conference_venc_thread failed\n");
     }
 
     return 0;

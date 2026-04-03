@@ -3,7 +3,7 @@
 #include "rkmedia_config_public.h"
 #include "rkmedia_module.h"
 #include "rkmedia_container.h"
-#include "rockx_face_detect_module.h"
+#include "rockx_video_conference_module.h"
 #include "SDL.h"
 #include "SDL_ttf.h"
 #include <sys/time.h>
@@ -180,10 +180,10 @@ int init_rkmedia_module_function()
         printf("low_venc init success\n");
     }
 
-    ret = init_rockx_face_detect_venc_module();
+    ret = init_rockx_video_conference_venc_module();
     if (ret != 0)
     {
-        printf("face detect venc module init error\n");
+        printf("conference venc module init error\n");
     }
 
     /*ret = RK_MPI_VENC_RGN_Init(0, NULL); 
