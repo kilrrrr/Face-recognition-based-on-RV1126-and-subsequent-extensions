@@ -17,7 +17,7 @@
 static rk_aiq_sys_ctx_t *g_aiq_ctx;
 
 RK_S32 SAMPLE_COMM_ISP_Init(rk_aiq_working_mode_t WDRMode, RK_BOOL bFECEnable) {
-  char *iq_file_dir = "/etc/iqfiles/";
+  const char *iq_file_dir = "/etc/iqfiles/";
   setlinebuf(stdout);
 
   rk_aiq_sys_ctx_t *aiq_ctx;
@@ -124,7 +124,107 @@ RK_VOID SAMPLE_COMM_ISP_SetLDCHLevel(RK_U32 level) {
 
 /*only support switch between HDR and normal*/
 RK_VOID SAMPLE_COMM_ISP_SetWDRModeDyn(rk_aiq_working_mode_t WDRMode) {
+  if (!g_aiq_ctx)
+    return;
+
   rk_aiq_uapi_sysctl_swWorkingModeDyn(g_aiq_ctx, WDRMode);
+}
+
+RK_S32 SAMPLE_COMM_ISP_SetExposureMode(opMode_t mode) {
+  if (!g_aiq_ctx)
+    return -1;
+
+  return rk_aiq_uapi_setExpMode(g_aiq_ctx, mode);
+}
+
+RK_S32 SAMPLE_COMM_ISP_SetManualExposure(float gain, float time) {
+  if (!g_aiq_ctx)
+    return -1;
+
+  return rk_aiq_uapi_setManualExp(g_aiq_ctx, gain, time);
+}
+
+RK_S32 SAMPLE_COMM_ISP_SetExposureRange(float gain_min, float gain_max, float time_min, float time_max) {
+  if (!g_aiq_ctx)
+    return -1;
+
+  paRange_t gain_range;
+  paRange_t time_range;
+  gain_range.min = gain_min;
+  gain_range.max = gain_max;
+  time_range.min = time_min;
+  time_range.max = time_max;
+
+  if (rk_aiq_uapi_setExpGainRange(g_aiq_ctx, &gain_range) != XCAM_RETURN_NO_ERROR)
+    return -1;
+
+  if (rk_aiq_uapi_setExpTimeRange(g_aiq_ctx, &time_range) != XCAM_RETURN_NO_ERROR)
+    return -1;
+
+  return 0;
+}
+
+RK_S32 SAMPLE_COMM_ISP_SetWBMode(opMode_t mode) {
+  if (!g_aiq_ctx)
+    return -1;
+
+  return rk_aiq_uapi_setWBMode(g_aiq_ctx, mode);
+}
+
+RK_S32 SAMPLE_COMM_ISP_SetWBScene(rk_aiq_wb_scene_t scene) {
+  if (!g_aiq_ctx)
+    return -1;
+
+  return rk_aiq_uapi_setMWBScene(g_aiq_ctx, scene);
+}
+
+RK_S32 SAMPLE_COMM_ISP_SetGrayMode(rk_aiq_gray_mode_t mode) {
+  if (!g_aiq_ctx)
+    return -1;
+
+  return rk_aiq_uapi_setGrayMode(g_aiq_ctx, mode);
+}
+
+RK_S32 SAMPLE_COMM_ISP_SetBrightness(RK_U32 level) {
+  if (!g_aiq_ctx)
+    return -1;
+
+  return rk_aiq_uapi_setBrightness(g_aiq_ctx, level);
+}
+
+RK_S32 SAMPLE_COMM_ISP_SetContrast(RK_U32 level) {
+  if (!g_aiq_ctx)
+    return -1;
+
+  return rk_aiq_uapi_setContrast(g_aiq_ctx, level);
+}
+
+RK_S32 SAMPLE_COMM_ISP_SetSaturation(RK_U32 level) {
+  if (!g_aiq_ctx)
+    return -1;
+
+  return rk_aiq_uapi_setSaturation(g_aiq_ctx, level);
+}
+
+RK_S32 SAMPLE_COMM_ISP_QueryExpInfo(Uapi_ExpQueryInfo_t *exp_info) {
+  if (!g_aiq_ctx || !exp_info)
+    return -1;
+
+  return rk_aiq_user_api_ae_queryExpResInfo(g_aiq_ctx, exp_info);
+}
+
+RK_S32 SAMPLE_COMM_ISP_QueryWBInfo(rk_aiq_wb_querry_info_t *wb_info) {
+  if (!g_aiq_ctx || !wb_info)
+    return -1;
+
+  return rk_aiq_user_api_awb_QueryWBInfo(g_aiq_ctx, wb_info);
+}
+
+RK_S32 SAMPLE_COMM_ISP_QueryCCT(rk_aiq_wb_cct_t *cct_info) {
+  if (!g_aiq_ctx || !cct_info)
+    return -1;
+
+  return rk_aiq_user_api_awb_GetCCT(g_aiq_ctx, cct_info);
 }
 
 #endif

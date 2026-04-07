@@ -38,4 +38,16 @@ RK_VOID SAMPLE_COMM_ISP_DumpExpInfo(rk_aiq_working_mode_t WDRMode);
 RK_VOID SAMPLE_COMM_ISP_SetFrameRate(RK_U32 uFps);
 RK_VOID SAMPLE_COMM_ISP_SetLDCHLevel(RK_U32 level);
 RK_VOID SAMPLE_COMM_ISP_SetWDRModeDyn(rk_aiq_working_mode_t WDRMode);
+RK_S32 SAMPLE_COMM_ISP_SetExposureMode(opMode_t mode);
+RK_S32 SAMPLE_COMM_ISP_SetManualExposure(float gain, float time);
+RK_S32 SAMPLE_COMM_ISP_SetExposureRange(float gain_min, float gain_max, float time_min, float time_max);
+RK_S32 SAMPLE_COMM_ISP_SetWBMode(opMode_t mode);
+RK_S32 SAMPLE_COMM_ISP_SetWBScene(rk_aiq_wb_scene_t scene);
+RK_S32 SAMPLE_COMM_ISP_SetGrayMode(rk_aiq_gray_mode_t mode);
+RK_S32 SAMPLE_COMM_ISP_SetBrightness(RK_U32 level);
+RK_S32 SAMPLE_COMM_ISP_SetContrast(RK_U32 level);
+RK_S32 SAMPLE_COMM_ISP_SetSaturation(RK_U32 level);
+RK_S32 SAMPLE_COMM_ISP_QueryExpInfo(Uapi_ExpQueryInfo_t *exp_info);
+RK_S32 SAMPLE_COMM_ISP_QueryWBInfo(rk_aiq_wb_querry_info_t *wb_info);
+RK_S32 SAMPLE_COMM_ISP_QueryCCT(rk_aiq_wb_cct_t *cct_info);
 #endif

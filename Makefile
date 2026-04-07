@@ -29,5 +29,5 @@ LD_FLAGS := -lpthread -leasymedia -ldrm -lrockchip_mpp \
 CFLAGS += -DRKAIQ
 
 all:
-	$(G++) ffmpeg_audio_queue.cpp ffmpeg_video_queue.cpp rkmedia_assignment_manage.cpp rkmedia_container.cpp rkmedia_data_process.cpp rkmedia_ffmpeg_config.cpp rkmedia_module.cpp rkmedia_module_function.cpp rockx_video_conference_module.cpp rv1126_ffmpeg_main.cpp rv1126_isp_function.cpp sample_common_isp.c   $(CFLAGS) $(LIB_FILES) $(LD_FLAGS) -o rv1126_ffmpeg_main
+	$(G++) ffmpeg_audio_queue.cpp ffmpeg_video_queue.cpp rkmedia_assignment_manage.cpp rkmedia_container.cpp rkmedia_data_process.cpp rkmedia_ffmpeg_config.cpp rkmedia_module.cpp rkmedia_module_function.cpp rockx_video_conference_module.cpp rv1126_ffmpeg_main.cpp rv1126_isp_function.cpp rv1126_isp_control_layer.cpp sample_common_isp.c   $(CFLAGS) $(LIB_FILES) $(LD_FLAGS) -o rv1126_ffmpeg_main
 	$(hide)$(ECHO) "Build Done ..."

@@ -6,6 +6,7 @@
 #include "rkmedia_ffmpeg_config.h"
 #include "rkmedia_container.h"
 #include "rockx_video_conference_module.h"
+#include "rv1126_isp_control_layer.h"
 
 int init_rv1126_first_assignment(int protocol_type, char * network_address, int low_url_type, char *low_url_address)
 {
@@ -194,6 +195,12 @@ int init_rv1126_first_assignment(int protocol_type, char * network_address, int 
     if (ret != 0)
     {
         printf("create rockx_video_conference_venc_thread failed\n");
+    }
+
+    ret = start_rv1126_isp_control_service();
+    if (ret != 0)
+    {
+        printf("start_rv1126_isp_control_service failed\n");
     }
 
     return 0;
